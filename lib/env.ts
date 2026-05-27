@@ -17,12 +17,20 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().min(1, { error: "RESEND_API_KEY isn't provided" })
 });
 
-const parsedEnv = envSchema.safeParse(process.env);
+function getEnv() {
+  if (process.env.SKIP_ENV_VALIDATION) {
+    return process.env as unknown as z.infer<typeof envSchema>;
+  }
 
-if (!parsedEnv.success) {
-  console.error("Invalid environment variables:");
-  console.error(z.prettifyError(parsedEnv.error));
-  process.exit(1);
+  const parsedEnv = envSchema.safeParse(process.env);
+
+  if (!parsedEnv.success) {
+    console.error("Invalid environment variables:");
+    console.error(z.prettifyError(parsedEnv.error));
+    process.exit(1);
+  }
+
+  return parsedEnv.data;
 }
 
-export const env = parsedEnv.data;
+export const env = getEnv();
