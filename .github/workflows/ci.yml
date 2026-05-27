@@ -59,4 +59,10 @@ jobs:
       - name: Build
         run: pnpm build
         env:
+          BETTER_AUTH_SECRET: "ci-test-secret"
+          BETTER_AUTH_URL: "http://localhost:3000"
+          DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
+          GOOGLE_CLIENT_ID: "ci-test-client-id"
+          GOOGLE_CLIENT_SECRET: "ci-test-client-secret"
+          RESEND_API_KEY: "re_ci_test_key"
           NEXT_TELEMETRY_DISABLED: "1"
