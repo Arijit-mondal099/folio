@@ -2,24 +2,17 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { SearchForm } from "@/components/search-form";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger
-} from "@/components/ui/collapsible";
-import {
   Sidebar,
-  SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail
+  SidebarRail,
+  SidebarSeparator
 } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
@@ -40,159 +33,22 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { SettingsSheet } from "@/components/settings-sheet";
 import {
-  ChevronRightIcon,
   Ellipsis,
   GalleryVerticalEnd,
   LogOut,
   Monitor,
+  Plus,
   Settings
 } from "lucide-react";
-
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#"
-        },
-        {
-          title: "Project Structure",
-          url: "#"
-        }
-      ]
-    },
-    {
-      title: "Build Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#"
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true
-        },
-        {
-          title: "Rendering",
-          url: "#"
-        },
-        {
-          title: "Caching",
-          url: "#"
-        },
-        {
-          title: "Styling",
-          url: "#"
-        },
-        {
-          title: "Optimizing",
-          url: "#"
-        },
-        {
-          title: "Configuring",
-          url: "#"
-        },
-        {
-          title: "Testing",
-          url: "#"
-        },
-        {
-          title: "Authentication",
-          url: "#"
-        },
-        {
-          title: "Deploying",
-          url: "#"
-        },
-        {
-          title: "Upgrading",
-          url: "#"
-        },
-        {
-          title: "Examples",
-          url: "#"
-        }
-      ]
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#"
-        },
-        {
-          title: "File Conventions",
-          url: "#"
-        },
-        {
-          title: "Functions",
-          url: "#"
-        },
-        {
-          title: "next.config.js Options",
-          url: "#"
-        },
-        {
-          title: "CLI",
-          url: "#"
-        },
-        {
-          title: "Edge Runtime",
-          url: "#"
-        }
-      ]
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#"
-        },
-        {
-          title: "Fast Refresh",
-          url: "#"
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#"
-        },
-        {
-          title: "Supported Browsers",
-          url: "#"
-        },
-        {
-          title: "Turbopack",
-          url: "#"
-        }
-      ]
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#"
-        }
-      ]
-    }
-  ]
-};
+import { CreateNoteBook } from "@/components/form/create-notebook";
+import { AppSidebarContent } from "./app-sidebar-content";
+import { SortButton, type SortMode } from "@/components/sort-button";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = authClient.useSession();
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+  const [sortMode, setSortMode] = React.useState<SortMode>("date-new");
 
   async function handleLogout() {
     try {
@@ -223,45 +79,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SearchForm />
+
+        <SidebarSeparator />
+
+        <div className="flex flex-col gap-2 px-2">
+          <CreateNoteBook>
+            <Button variant="outline" size="sm" className="w-full">
+              <Plus className="size-4" />
+              Create Notebook
+            </Button>
+          </CreateNoteBook>
+          <div className="flex items-center gap-2">
+            <SearchForm className="flex-1" />
+            <SortButton value={sortMode} onChange={setSortMode} />
+          </div>
+        </div>
       </SidebarHeader>
-      <SidebarContent className="gap-0">
-        {/* We create a collapsible SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <Collapsible
-            key={item.title}
-            title={item.title}
-            defaultOpen
-            className="group/collapsible"
-          >
-            <SidebarGroup>
-              <SidebarGroupLabel
-                asChild
-                className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
-                <CollapsibleTrigger>
-                  {item.title}{" "}
-                  <ChevronRightIcon className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                </CollapsibleTrigger>
-              </SidebarGroupLabel>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {item.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible>
-        ))}
-      </SidebarContent>
+
+      <AppSidebarContent sortMode={sortMode} />
+
       <SidebarRail />
+
       <SidebarFooter className="border-t border-dashed">
         <SidebarMenu>
           <SidebarMenuItem>
