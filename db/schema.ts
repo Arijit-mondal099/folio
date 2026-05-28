@@ -1,5 +1,12 @@
-import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { relations, sql } from "drizzle-orm";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  index,
+  jsonb
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -92,4 +99,68 @@ export const accountRelations = relations(account, ({ one }) => ({
   })
 }));
 
-export const schema = { user, session, account, verification };
+export const notebooks = pgTable("notebooks", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull()
+});
+
+export const notes = pgTable("notes", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  content: jsonb("content").notNull(),
+  noteBookId: text("note_book_id")
+    .notNull()
+    .references(() => notebooks.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade"
+    }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull()
+});
+
+// One note book can have many notes
+// A note book only can has a user
+export const notebooksRelations = relations(notebooks, ({ many, one }) => ({
+  notes: many(notes),
+  user: one(user, {
+    fields: [notebooks.userId],
+    references: [user.id]
+  })
+}));
+
+// A note can has one notebook
+export const noteRelations = relations(notes, ({ one }) => ({
+  notebook: one(notebooks, {
+    fields: [notes.noteBookId],
+    references: [notebooks.id]
+  })
+}));
+
+export type NoteBookSelect = typeof notebooks.$inferSelect;
+export type NoteBookIntert = typeof notebooks.$inferInsert;
+export type NoteSelect = typeof notes.$inferSelect;
+export type NoteInsert = typeof notes.$inferInsert;
+
+export const schema = {
+  user,
+  session,
+  account,
+  verification,
+  notebooks,
+  notes
+};
