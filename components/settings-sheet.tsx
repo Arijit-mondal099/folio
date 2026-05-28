@@ -16,18 +16,22 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/lib/auth-client";
+import { useConfirm } from "@/components/providers/confirm-provider";
 
 export function SettingsSheet({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
+  const confirm = useConfirm();
 
   async function handleDeleteAccount() {
-    if (
-      !window.confirm(
-        "Are you sure you want to delete your account? This action cannot be undone."
-      )
-    )
-      return;
+    const ok = await confirm({
+      title: "Delete account?",
+      description:
+        "Your account and all associated data will be permanently deleted. This cannot be undone.",
+      confirmText: "Delete Account",
+      destructive: true
+    });
+    if (!ok) return;
     const { error } = await authClient.deleteUser();
     if (error) {
       toast.error(error.message ?? "Failed to delete account");
