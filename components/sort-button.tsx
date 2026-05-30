@@ -14,10 +14,12 @@ export type SortMode = "name-asc" | "name-desc" | "date-new" | "date-old";
 
 export function SortButton({
   value,
-  onChange
+  onChange,
+  ariaLabel = "Sort"
 }: {
   value: SortMode;
   onChange: (value: SortMode) => void;
+  ariaLabel?: string;
 }) {
   return (
     <DropdownMenu>
@@ -25,8 +27,8 @@ export function SortButton({
         <Button
           variant="outline"
           size="icon-sm"
-          className="shrink-0"
-          aria-label="Sort notebooks"
+          className="shrink-0 p-4"
+          aria-label={ariaLabel}
         >
           <ArrowDownAZ className="size-4" />
         </Button>

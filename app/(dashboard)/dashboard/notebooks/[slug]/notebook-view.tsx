@@ -2,21 +2,69 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { FileText, Plus, Trash2 } from "lucide-react";
+import { FileText, Plus, SearchIcon, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NoteDialog } from "@/components/form/note-dialog";
+import { SortButton, type SortMode } from "@/components/sort-button";
 import { useNotebook } from "@/lib/notebook-queries";
 import { useDeleteNote, useNotes } from "@/lib/note-queries";
 import { useConfirm } from "@/components/providers/confirm-provider";
 import type { NoteSelect } from "@/db/schema";
 
+function formatRelativeTime(date: Date | string): string {
+  const d = new Date(date);
+  const diffMs = Date.now() - d.getTime();
+  const mins = Math.floor(diffMs / 60_000);
+  const hours = Math.floor(diffMs / 3_600_000);
+  const days = Math.floor(diffMs / 86_400_000);
+
+  if (mins < 1) return "Just now";
+  if (mins < 60) return `${mins}m ago`;
+  if (hours < 24) return `${hours}h ago`;
+  if (days < 7) return `${days}d ago`;
+  return d.toLocaleDateString();
+}
+
+function sortNotes(notes: NoteSelect[], mode: SortMode): NoteSelect[] {
+  const sorted = [...notes];
+  switch (mode) {
+    case "name-asc":
+      return sorted.sort((a, b) => a.title.localeCompare(b.title));
+    case "name-desc":
+      return sorted.sort((a, b) => b.title.localeCompare(a.title));
+    case "date-new":
+      return sorted.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    case "date-old":
+      return sorted.sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
+  }
+}
+
 export function NotebookView({ notebookId }: { notebookId: string }) {
   const notebook = useNotebook(notebookId);
   const notes = useNotes(notebookId);
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [sortMode, setSortMode] = React.useState<SortMode>("date-new");
+
+  const trimmedQuery = searchQuery.trim().toLowerCase();
+  const isSearching = trimmedQuery.length > 0;
+  const filteredNotes = React.useMemo(() => {
+    if (!notes.data) return [];
+    const filtered = isSearching
+      ? notes.data.filter((n) => n.title.toLowerCase().includes(trimmedQuery))
+      : notes.data;
+    return sortNotes(filtered, sortMode);
+  }, [notes.data, isSearching, trimmedQuery, sortMode]);
 
   function openCreate() {
     setDialogOpen(true);
@@ -45,21 +93,40 @@ export function NotebookView({ notebookId }: { notebookId: string }) {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            {notebook.data.name}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {notes.data?.length ?? 0}{" "}
-            {(notes.data?.length ?? 0) === 1 ? "note" : "notes"}
-          </p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="size-4" />
-          New Note
-        </Button>
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {notebook.data.name}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          {isSearching
+            ? `${filteredNotes.length} of ${notes.data?.length ?? 0} notes`
+            : `${notes.data?.length ?? 0} ${(notes.data?.length ?? 0) === 1 ? "note" : "notes"}`}
+        </p>
       </div>
+
+      {notes.data && notes.data.length > 0 && (
+        <div className="flex items-center gap-2">
+          <div className="relative max-w-md flex-1">
+            <SearchIcon className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
+            <Input
+              type="search"
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-8"
+            />
+          </div>
+          <SortButton
+            value={sortMode}
+            onChange={setSortMode}
+            ariaLabel="Sort notes"
+          />
+          <Button onClick={openCreate}>
+            <Plus className="size-4" />
+            New Note
+          </Button>
+        </div>
+      )}
 
       {notes.isLoading ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -67,12 +134,14 @@ export function NotebookView({ notebookId }: { notebookId: string }) {
             <Skeleton key={i} className="h-32 w-full" />
           ))}
         </div>
-      ) : notes.data && notes.data.length > 0 ? (
+      ) : filteredNotes.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {notes.data.map((note) => (
+          {filteredNotes.map((note) => (
             <NoteCard key={note.id} note={note} notebookId={notebookId} />
           ))}
         </div>
+      ) : isSearching ? (
+        <NoMatchState query={searchQuery} />
       ) : (
         <EmptyState onCreate={openCreate} />
       )}
@@ -108,30 +177,51 @@ function NoteCard({
   }
 
   return (
-    <Card className="flex flex-col justify-between gap-4 transition-colors hover:bg-muted/40">
+    <Card className="transition-colors hover:bg-muted/40">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 truncate text-base">
           <FileText className="size-4 shrink-0 text-muted-foreground" />
           <span className="truncate">{note.title}</span>
         </CardTitle>
       </CardHeader>
-      <CardFooter className="justify-end gap-2">
-        <Button asChild variant="outline" size="sm">
-          <Link href={`/dashboard/notebooks/${notebookId}/notes/${note.id}`}>
-            View
-          </Link>
-        </Button>
-        <Button
-          variant="destructive"
-          size="icon-sm"
-          onClick={handleDelete}
-          disabled={deleteNote.isPending}
-          aria-label={`Delete ${note.title}`}
-        >
-          <Trash2 className="size-4" />
-        </Button>
+      <CardFooter className="flex items-center justify-between gap-2">
+        <span className="truncate text-xs text-muted-foreground">
+          Updated {formatRelativeTime(note.updatedAt)}
+        </span>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/dashboard/notebooks/${notebookId}/notes/${note.id}`}>
+              View
+            </Link>
+          </Button>
+          <Button
+            variant="destructive"
+            size="icon-sm"
+            onClick={handleDelete}
+            disabled={deleteNote.isPending}
+            aria-label={`Delete ${note.title}`}
+          >
+            <Trash2 className="size-4" />
+          </Button>
+        </div>
       </CardFooter>
     </Card>
+  );
+}
+
+function NoMatchState({ query }: { query: string }) {
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-2 rounded-xl border border-dashed py-16 text-center">
+      <div className="flex size-12 items-center justify-center rounded-full bg-muted">
+        <SearchIcon className="size-5 text-muted-foreground" />
+      </div>
+      <div>
+        <p className="font-medium">No notes match</p>
+        <p className="text-sm text-muted-foreground">
+          Nothing found for &ldquo;{query}&rdquo;.
+        </p>
+      </div>
+    </div>
   );
 }
 

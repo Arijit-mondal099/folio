@@ -32,23 +32,18 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { SettingsSheet } from "@/components/settings-sheet";
-import {
-  Ellipsis,
-  GalleryVerticalEnd,
-  LogOut,
-  Monitor,
-  Plus,
-  Settings
-} from "lucide-react";
+import { Ellipsis, LogOut, Monitor, Plus, Settings } from "lucide-react";
 import { CreateNoteBook } from "@/components/form/create-notebook";
 import { AppSidebarContent } from "./app-sidebar-content";
 import { SortButton, type SortMode } from "@/components/sort-button";
+import Image from "next/image";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = authClient.useSession();
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const [sortMode, setSortMode] = React.useState<SortMode>("date-new");
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   async function handleLogout() {
     try {
@@ -70,7 +65,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="cursor-default hover:bg-transparent"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <GalleryVerticalEnd className="size-4" />
+                <Image
+                  src={"/logo.png"}
+                  width={100}
+                  height={100}
+                  className="w-full h-full"
+                  alt="Logo"
+                />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-semibold">folio</span>
@@ -90,13 +91,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </Button>
           </CreateNoteBook>
           <div className="flex items-center gap-2">
-            <SearchForm className="flex-1" />
-            <SortButton value={sortMode} onChange={setSortMode} />
+            <SearchForm
+              className="flex-1"
+              value={searchQuery}
+              onChange={setSearchQuery}
+            />
+            <SortButton
+              value={sortMode}
+              onChange={setSortMode}
+              ariaLabel="Sort notebooks"
+            />
           </div>
         </div>
       </SidebarHeader>
 
-      <AppSidebarContent sortMode={sortMode} />
+      <AppSidebarContent sortMode={sortMode} searchQuery={searchQuery} />
 
       <SidebarRail />
 
