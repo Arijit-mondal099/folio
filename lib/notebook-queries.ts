@@ -11,6 +11,7 @@ import {
   updateNotebook
 } from "@/server/note-books";
 import type { NoteBookIntert } from "@/db/schema";
+import { dashboardKeys } from "@/lib/dashboard-queries";
 
 export const notebookKeys = {
   all: ["notebooks"] as const,
@@ -52,6 +53,7 @@ export function useCreateNotebook() {
     onSuccess: (result) => {
       toast.success(result.message);
       queryClient.invalidateQueries({ queryKey: notebookKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: dashboardKeys.stats() });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -77,6 +79,7 @@ export function useUpdateNotebook() {
       toast.success(result.message);
       queryClient.invalidateQueries({ queryKey: notebookKeys.lists() });
       queryClient.invalidateQueries({ queryKey: notebookKeys.detail(id) });
+      queryClient.invalidateQueries({ queryKey: dashboardKeys.stats() });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -95,6 +98,7 @@ export function useDeleteNotebook() {
     onSuccess: (result) => {
       toast.success(result.message);
       queryClient.invalidateQueries({ queryKey: notebookKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: dashboardKeys.stats() });
     },
     onError: (error) => {
       toast.error(error.message);
