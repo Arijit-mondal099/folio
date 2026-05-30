@@ -1,10 +1,10 @@
+import { NoteView } from "./note-view";
+
 interface NotesPageProps {
-  params: Promise<{ noteId: string }>;
+  params: Promise<{ slug: string; noteId: string }>;
 }
 
-const NotesPage: React.FC<NotesPageProps> = async ({ params }) => {
-  const { noteId } = await params;
-  return <div>Note {noteId}</div>;
-};
-
-export default NotesPage;
+export default async function NotesPage({ params }: NotesPageProps) {
+  const { slug, noteId } = await params;
+  return <NoteView notebookId={slug} noteId={noteId} />;
+}
