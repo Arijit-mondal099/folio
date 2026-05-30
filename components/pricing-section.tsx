@@ -46,10 +46,10 @@ export default function Pricing() {
               ))}
             </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild className="w-full">
+              <Button asChild className="w-full sm:flex-1">
                 <Link href="/signup">Get started</Link>
               </Button>
-              <Button asChild variant="outline" className="w-full">
+              <Button asChild variant="outline" className="w-full sm:flex-1">
                 <Link
                   href={GITHUB_URL}
                   target="_blank"
