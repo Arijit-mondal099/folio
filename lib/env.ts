@@ -14,7 +14,8 @@ const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z
     .string()
     .min(1, { error: "GOOGLE_CLIENT_SECRET isn't provided" }),
-  RESEND_API_KEY: z.string().min(1, { error: "RESEND_API_KEY isn't provided" })
+  RESEND_API_KEY: z.string().min(1, { error: "RESEND_API_KEY isn't provided" }),
+  GROQ_API_KEY: z.string().min(1, { error: "GROQ_API_KEY isn't provided" })
 });
 
 function getEnv() {

@@ -10,6 +10,7 @@ import {
   getNotes,
   updateNote
 } from "@/server/notes";
+import { dashboardKeys } from "@/lib/dashboard-queries";
 
 export const noteKeys = {
   all: ["notes"] as const,
@@ -58,6 +59,7 @@ export function useCreateNote() {
     onSuccess: (result, { notebookId }) => {
       toast.success(result.message);
       queryClient.invalidateQueries({ queryKey: noteKeys.list(notebookId) });
+      queryClient.invalidateQueries({ queryKey: dashboardKeys.stats() });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -81,12 +83,12 @@ export function useUpdateNote() {
       if (!result.success) throw new Error(result.message);
       return result;
     },
-    onSuccess: (result, { notebookId, noteId }) => {
-      toast.success(result.message);
+    onSuccess: (_result, { notebookId, noteId }) => {
       queryClient.invalidateQueries({ queryKey: noteKeys.list(notebookId) });
       queryClient.invalidateQueries({
         queryKey: noteKeys.detail(notebookId, noteId)
       });
+      queryClient.invalidateQueries({ queryKey: dashboardKeys.stats() });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -111,6 +113,7 @@ export function useDeleteNote() {
     onSuccess: (result, { notebookId }) => {
       toast.success(result.message);
       queryClient.invalidateQueries({ queryKey: noteKeys.list(notebookId) });
+      queryClient.invalidateQueries({ queryKey: dashboardKeys.stats() });
     },
     onError: (error) => {
       toast.error(error.message);

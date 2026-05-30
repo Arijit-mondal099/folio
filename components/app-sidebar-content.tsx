@@ -51,15 +51,26 @@ function sortNotebooks(
   }
 }
 
-export function AppSidebarContent({ sortMode }: { sortMode: SortMode }) {
+export function AppSidebarContent({
+  sortMode,
+  searchQuery
+}: {
+  sortMode: SortMode;
+  searchQuery: string;
+}) {
   const { data: notebooks, isLoading } = useNotebooks();
   const [renameTarget, setRenameTarget] = React.useState<NoteBookSelect | null>(
     null
   );
-  const sorted = React.useMemo(
-    () => (notebooks ? sortNotebooks(notebooks, sortMode) : []),
-    [notebooks, sortMode]
-  );
+  const trimmedQuery = searchQuery.trim().toLowerCase();
+  const isSearching = trimmedQuery.length > 0;
+  const sorted = React.useMemo(() => {
+    if (!notebooks) return [];
+    const filtered = isSearching
+      ? notebooks.filter((n) => n.name.toLowerCase().includes(trimmedQuery))
+      : notebooks;
+    return sortNotebooks(filtered, sortMode);
+  }, [notebooks, sortMode, trimmedQuery, isSearching]);
 
   return (
     <SidebarContent className="gap-0">
@@ -87,7 +98,7 @@ export function AppSidebarContent({ sortMode }: { sortMode: SortMode }) {
             ) : (
               <SidebarMenuItem>
                 <span className="px-2 py-1 text-xs text-muted-foreground">
-                  No notebooks yet
+                  {isSearching ? "No notebooks match" : "No notebooks yet"}
                 </span>
               </SidebarMenuItem>
             )}

@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useCreateNote } from "@/lib/note-queries";
+import { EMPTY_DOC } from "@/lib/editor-content";
 import { createNoteSchema, type CreateNoteData } from "@/schema/note.schema";
 
 export function NoteDialog({
@@ -48,7 +49,7 @@ export function NoteDialog({
 
   function onSubmit(values: CreateNoteData) {
     createNote.mutate(
-      { notebookId, title: values.title, content: { text: "" } },
+      { notebookId, title: values.title, content: EMPTY_DOC },
       {
         onSuccess: () => {
           reset();
