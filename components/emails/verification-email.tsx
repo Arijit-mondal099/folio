@@ -12,6 +12,8 @@ import {
   Tailwind
 } from "@react-email/components";
 
+import { SITE_NAME } from "@/lib/constants";
+
 interface VerificationEmailProps {
   userName: string;
   verificationUrl: string;
@@ -25,7 +27,7 @@ const VerificationEmail = ({
     <Html lang="en" dir="ltr">
       <Tailwind>
         <Head />
-        <Preview>Verify your folio email address</Preview>
+        <Preview>Verify your {SITE_NAME} email address</Preview>
         <Body className="bg-gray-100 font-sans py-10">
           <Container className="bg-white rounded-[8px] shadow-sm max-w-150 mx-auto p-10">
             <Section className="text-center mb-8">
@@ -40,8 +42,8 @@ const VerificationEmail = ({
               </Text>
               <Text className="text-[16px] text-gray-700 leading-6 mb-4">
                 Thank you for signing up! To complete your account setup and
-                start using folio, please verify your email address by clicking
-                the button below.
+                start using {SITE_NAME}, please verify your email address by
+                clicking the button below.
               </Text>
               <Text className="text-[16px] text-gray-700 leading-6 mb-6">
                 This verification link will expire in 24 hours for security
@@ -75,15 +77,15 @@ const VerificationEmail = ({
                 <strong>Security Notice:</strong>
               </Text>
               <Text className="text-[14px] text-gray-600 leading-5">
-                If you didn&apos;t create an account with folio, please ignore
-                this email. Your email address will not be added to our system
-                without verification.
+                If you didn&apos;t create an account with {SITE_NAME}, please
+                ignore this email. Your email address will not be added to our
+                system without verification.
               </Text>
             </Section>
 
             <Section className="border-t border-gray-200 pt-6">
               <Text className="text-[12px] text-gray-500 leading-4 m-0">
-                © {new Date().getFullYear()} folio. All rights reserved.
+                © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
               </Text>
             </Section>
           </Container>

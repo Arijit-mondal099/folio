@@ -12,6 +12,8 @@ import {
   Tailwind
 } from "@react-email/components";
 
+import { SITE_NAME } from "@/lib/constants";
+
 interface ExistingUserSignUpEmailProps {
   userName: string;
   loginUrl: string;
@@ -25,7 +27,7 @@ const ExistingUserSignUpEmail = ({
     <Html lang="en" dir="ltr">
       <Tailwind>
         <Head />
-        <Preview>Someone tried to sign up with your folio email</Preview>
+        <Preview>Someone tried to sign up with your {SITE_NAME} email</Preview>
         <Body className="bg-gray-100 font-sans py-10">
           <Container className="bg-white rounded-[8px] shadow-sm max-w-150 mx-auto p-10">
             <Section className="text-center mb-8">
@@ -40,7 +42,7 @@ const ExistingUserSignUpEmail = ({
               </Text>
               <Text className="text-[16px] text-gray-700 leading-6 mb-4">
                 Someone tried to create a new account using your email address.
-                Since you already have a folio account, no new account was
+                Since you already have a {SITE_NAME} account, no new account was
                 created.
               </Text>
               <Text className="text-[16px] text-gray-700 leading-6 mb-6">
@@ -73,7 +75,7 @@ const ExistingUserSignUpEmail = ({
 
             <Section className="border-t border-gray-200 pt-6">
               <Text className="text-[12px] text-gray-500 leading-4 m-0">
-                © {new Date().getFullYear()} folio. All rights reserved.
+                © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
               </Text>
             </Section>
           </Container>
