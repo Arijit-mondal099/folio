@@ -15,31 +15,31 @@ const faqItems = [
     id: "item-1",
     question: "Is folio really free?",
     answer:
-      "Yes. Folio is MIT-licensed. You can use the hosted version free of charge, or clone the repo and self-host it on your own infrastructure."
+      "Yes — MIT-licensed and free to use. The hosted version costs nothing, and the source is public if you'd rather self-host."
   },
   {
     id: "item-2",
-    question: "Which AI model does it use?",
+    question: "Which AI model does folio use?",
     answer:
-      "The chat assistant and the inline transforms run on Groq's Qwen3-32B by default. If you self-host, you can swap the model by changing DEFAULT_MODEL in lib/llm.ts."
+      "Qwen3-32B served via Groq, by default. Self-hosted deployments can swap it by changing DEFAULT_MODEL in lib/llm.ts."
   },
   {
     id: "item-3",
     question: "Where are my notes stored?",
     answer:
-      "In a PostgreSQL database. The hosted version uses Neon; self-hosted setups can point at any Postgres instance via the DATABASE_URL env var."
+      "Any PostgreSQL database. The hosted version uses Neon; self-hosted deployments point DATABASE_URL at whatever Postgres instance you control."
   },
   {
     id: "item-4",
     question: "Can I export my notes?",
     answer:
-      "Yes — Markdown, HTML, plain text, PDF, and Word, all from the editor toolbar. No vendor lock-in, and exports preserve headings, lists, and code blocks."
+      "Markdown, HTML, plain text, PDF, and Word — all from the editor toolbar. Exports preserve headings, lists, and code blocks, so nothing is locked in."
   },
   {
     id: "item-5",
-    question: "How do I run it myself?",
+    question: "How do I run folio myself?",
     answer:
-      "Clone the GitHub repo, set the env vars (DATABASE_URL, GROQ_API_KEY, BETTER_AUTH_*, Google OAuth keys, NEXT_PUBLIC_SITE_URL), then run pnpm install && pnpm dev. The README has the full setup guide."
+      "Clone the repo, set the env vars (DATABASE_URL, GROQ_API_KEY, BETTER_AUTH_*, OAuth keys, NEXT_PUBLIC_SITE_URL), then pnpm install && pnpm dev. Full setup is in the README."
   }
 ];
 
@@ -52,8 +52,8 @@ export default function FAQsTwo() {
             Frequently asked questions
           </h2>
           <p className="text-muted-foreground mt-4 text-balance">
-            Quick answers about how folio works, where your notes live, and how
-            to run it yourself.
+            How folio works, where your notes live, and what it takes to run it
+            yourself.
           </p>
         </div>
 

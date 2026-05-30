@@ -11,39 +11,39 @@ import {
 const features = [
   {
     icon: BookOpen,
-    title: "Notebooks & notes",
+    title: "Organised by default",
     description:
-      "Organise everything into notebooks. Search, sort, and jump to what matters in seconds."
+      "Group notes into notebooks. Search, sort, and jump to anything in seconds."
   },
   {
     icon: Sparkles,
-    title: "AI writing assistant",
+    title: "An assistant, not a chatbot",
     description:
-      "A chat sidebar that drafts, rewrites, or extends your note — you review and apply."
+      "Folio's AI drafts, rewrites, and extends — every change passes through your review before it lands."
   },
   {
     icon: Wand2,
-    title: "Inline transforms",
+    title: "Transforms, in place",
     description:
-      "Highlight any text and fix typos, improve clarity, summarise, change tone, or translate."
+      "Highlight any text to fix typos, sharpen clarity, summarise, shift tone, or translate. No round-trips."
   },
   {
     icon: FileDown,
-    title: "Export anywhere",
+    title: "Export to anything",
     description:
-      "One click to Markdown, HTML, plain text, PDF, or Word — preserves headings, lists, and code."
+      "Markdown, HTML, plain text, PDF, or Word — formatting preserved, with zero vendor lock-in."
   },
   {
     icon: LayoutDashboard,
-    title: "Activity dashboard",
+    title: "A dashboard that's actually useful",
     description:
-      "See notes per notebook, recent writing streaks, and your most-used notebook at a glance."
+      "Notes per notebook, recent writing activity, and your most-used notebook at a glance."
   },
   {
     icon: Moon,
-    title: "Dark mode",
+    title: "Dark mode done right",
     description:
-      "A clean light/dark theme that follows your system, with no flash on first paint."
+      "Light or dark, follows your system preference, with no flash on first paint."
   }
 ];
 
@@ -54,11 +54,11 @@ export default function FeaturesSection() {
         <div className="mx-auto w-full max-w-5xl px-6">
           <div>
             <h2 className="text-foreground max-w-2xl text-balance text-4xl font-semibold">
-              Everything you need to think on paper.
+              Everything you need. Nothing you don&apos;t.
             </h2>
             <p className="text-muted-foreground mt-4 max-w-2xl text-balance text-lg">
-              A focused editor, an assistant that actually helps, and zero
-              vendor lock-in.
+              Six features. Each one earns its place — no bloat, no upsell, no
+              feature you have to pay extra to unlock.
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

@@ -9,10 +9,10 @@ const GITHUB_URL = "https://github.com/Arijit-mondal099/folio";
 
 const features = [
   "Unlimited notebooks and notes",
-  "All AI features included",
+  "Every AI feature included",
   "Export to PDF, Word, Markdown, HTML, text",
   "Email + Google sign-in",
-  "MIT licensed, self-hostable"
+  "MIT licensed, fully self-hostable"
 ];
 
 export default function Pricing() {
@@ -24,8 +24,8 @@ export default function Pricing() {
             Free. Forever.
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-md text-balance">
-            Folio is open source. Use the hosted version at no cost, or
-            self-host it yourself.
+            No trials. No tiers. No catch. Use the hosted version free, or fork
+            the repo and run it yourself.
           </p>
         </div>
         <div className="mt-12">

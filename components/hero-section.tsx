@@ -34,13 +34,12 @@ export default function HeroSection() {
                   </span>
                 </Link>
                 <h1 className="mx-auto mt-8 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-                  Your notebook, supercharged with AI.
+                  The note app for thinking, drafting, and shipping.
                 </h1>
                 <p className="text-muted-foreground mx-auto my-6 max-w-2xl text-balance text-xl">
-                  Folio is a clean, fast note-taking app with a built-in writing
-                  assistant. Capture ideas in notebooks, refine them in a rich
-                  editor, and export to PDF, Word, Markdown, HTML, or plain text
-                  — all for free.
+                  A focused editor with a built-in AI assistant. Capture ideas,
+                  refine them in place, and export to PDF, Word, Markdown, HTML,
+                  or plain text — free, open source, and yours to extend.
                 </p>
 
                 <div className="flex items-center justify-center gap-3">
@@ -60,6 +59,9 @@ export default function HeroSection() {
                     </Link>
                   </Button>
                 </div>
+                <p className="text-muted-foreground mt-5 text-sm">
+                  No credit card. No trials. Sign in with email or Google.
+                </p>
               </div>
             </div>
             <div className="relative">
