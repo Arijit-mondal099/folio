@@ -1,13 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+
 import { auth } from "@/lib/auth";
 
-export async function proxy(request: NextRequest) {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  });
+const PUBLIC_ROUTES = [
+  "/",
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/reset-password"
+] as const;
 
-  if (!session) {
+export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (session && (PUBLIC_ROUTES as readonly string[]).includes(pathname)) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  if (!session && pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
@@ -15,5 +27,12 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"] // Specify the routes the middleware applies to
+  matcher: [
+    "/",
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/reset-password",
+    "/dashboard/:path*"
+  ]
 };
