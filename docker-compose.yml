@@ -1,0 +1,28 @@
+# Folio runs as a single web container.
+# Database is external (Neon) — point DATABASE_URL at it via .env or the host shell.
+#
+# Quick start:
+#   1. cp .env.example .env  (or copy your existing .env)
+#   2. docker compose up -d --build
+#   3. Open http://localhost:3000
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: folio:latest
+    container_name: folio_web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Required — pulled from the host environment / .env file.
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required (Neon connection string)}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET is required}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:?GOOGLE_CLIENT_ID is required}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:?GOOGLE_CLIENT_SECRET is required}
+      RESEND_API_KEY: ${RESEND_API_KEY:?RESEND_API_KEY is required}
+      GROQ_API_KEY: ${GROQ_API_KEY:?GROQ_API_KEY is required}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
