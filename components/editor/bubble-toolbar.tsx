@@ -91,7 +91,7 @@ export function BubbleToolbar({ editor }: { editor: Editor | null }) {
   }
 
   return (
-    <div className="flex items-center gap-0.5 rounded-lg border bg-popover p-1 shadow-md">
+    <div className="flex max-w-[calc(100vw-1rem)] flex-wrap items-center gap-0.5 rounded-lg border bg-popover p-1 shadow-md">
       <ToolbarButton
         active={editor.isActive("paragraph") && !editor.isActive("heading")}
         onClick={() => editor.chain().focus().setParagraph().run()}
