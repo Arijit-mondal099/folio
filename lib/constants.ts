@@ -13,6 +13,6 @@ export const SITE_KEYWORDS = [
   SITE_NAME
 ];
 
-export const OG_IMAGE = "/hero.webp";
+export const OG_IMAGE = "/hero-light.png";
 export const LOGO_IMAGE = "/logo.png";
 export const FAVICON = "/favicon.ico";
