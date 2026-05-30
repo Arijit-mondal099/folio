@@ -69,10 +69,20 @@ export default function HeroSection() {
                 <div className="mt-12 md:mt-16">
                   <div className="bg-background rounded-(--radius) relative mx-auto overflow-hidden border border-transparent shadow-lg shadow-black/10 ring-1 ring-black/10">
                     <Image
-                      src="/hero.webp"
-                      alt="folio editor preview"
-                      width="2880"
-                      height="1842"
+                      src="/hero-light.png"
+                      alt="folio editor preview, light theme"
+                      width={3199}
+                      height={1699}
+                      priority
+                      className="block dark:hidden"
+                    />
+                    <Image
+                      src="/hero-dark.png"
+                      alt="folio editor preview, dark theme"
+                      width={3199}
+                      height={1695}
+                      priority
+                      className="hidden dark:block"
                     />
                   </div>
                 </div>
