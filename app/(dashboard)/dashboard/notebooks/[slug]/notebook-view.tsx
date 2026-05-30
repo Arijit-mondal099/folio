@@ -105,8 +105,8 @@ export function NotebookView({ notebookId }: { notebookId: string }) {
       </div>
 
       {notes.data && notes.data.length > 0 && (
-        <div className="flex items-center gap-2">
-          <div className="relative max-w-md flex-1">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="relative flex-1 sm:max-w-md">
             <SearchIcon className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
             <Input
               type="search"
@@ -116,15 +116,17 @@ export function NotebookView({ notebookId }: { notebookId: string }) {
               className="pl-8"
             />
           </div>
-          <SortButton
-            value={sortMode}
-            onChange={setSortMode}
-            ariaLabel="Sort notes"
-          />
-          <Button onClick={openCreate}>
-            <Plus className="size-4" />
-            New Note
-          </Button>
+          <div className="flex items-center gap-2">
+            <SortButton
+              value={sortMode}
+              onChange={setSortMode}
+              ariaLabel="Sort notes"
+            />
+            <Button onClick={openCreate} className="flex-1 sm:flex-initial">
+              <Plus className="size-4" />
+              New Note
+            </Button>
+          </div>
         </div>
       )}
 

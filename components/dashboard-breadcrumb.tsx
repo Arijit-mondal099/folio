@@ -81,14 +81,17 @@ function BreadcrumbFragment({
 }) {
   return (
     <>
-      {showSeparator && <BreadcrumbSeparator className="hidden md:block" />}
-      <BreadcrumbItem className={isLast ? "" : "hidden md:block"}>
+      {showSeparator && <BreadcrumbSeparator />}
+      <BreadcrumbItem>
         {isLast || !crumb.href ? (
-          <BreadcrumbPage className="truncate max-w-50">
+          <BreadcrumbPage className="truncate max-w-32 sm:max-w-56 md:max-w-80">
             {crumb.label}
           </BreadcrumbPage>
         ) : (
-          <BreadcrumbLink asChild className="truncate max-w-50">
+          <BreadcrumbLink
+            asChild
+            className="truncate max-w-24 sm:max-w-40 md:max-w-56"
+          >
             <Link href={crumb.href}>{crumb.label}</Link>
           </BreadcrumbLink>
         )}
