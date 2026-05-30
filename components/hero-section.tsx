@@ -3,6 +3,10 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Sparkle } from "lucide-react";
 
+import { GitHubIcon } from "@/components/github-icon";
+
+const GITHUB_URL = "https://github.com/Arijit-mondal099/folio";
+
 export default function HeroSection() {
   return (
     <>
@@ -12,7 +16,9 @@ export default function HeroSection() {
             <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
               <div>
                 <Link
-                  href="#"
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:bg-foreground/5 mx-auto flex w-fit items-center justify-center gap-2 rounded-md py-0.5 pl-1 pr-3 transition-colors duration-150"
                 >
                   <div
@@ -23,27 +29,39 @@ export default function HeroSection() {
                     <div className="absolute inset-x-1.5 inset-y-0 border-x border-dotted border-background/25"></div>
                     <Sparkle className="fill-background stroke-background size-3 drop-shadow" />
                   </div>
-                  <span className="font-medium">Introducing Mist Agents</span>
+                  <span className="font-medium">
+                    Open source · MIT licensed
+                  </span>
                 </Link>
                 <h1 className="mx-auto mt-8 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-                  Build 10x Faster with Mist
+                  The note app for thinking, drafting, and shipping.
                 </h1>
-                <p className="text-muted-foreground mx-auto my-6 max-w-xl text-balance text-xl">
-                  Craft. Build. Ship Modern Websites With AI Support.
+                <p className="text-muted-foreground mx-auto my-6 max-w-2xl text-balance text-xl">
+                  A focused editor with a built-in AI assistant. Capture ideas,
+                  refine them in place, and export to PDF, Word, Markdown, HTML,
+                  or plain text — free, open source, and yours to extend.
                 </p>
 
                 <div className="flex items-center justify-center gap-3">
                   <Button asChild size="lg">
-                    <Link href="#link">
-                      <span className="text-nowrap">Start Building</span>
+                    <Link href="/signup">
+                      <span className="text-nowrap">Start writing — free</span>
                     </Link>
                   </Button>
                   <Button asChild size="lg" variant="outline">
-                    <Link href="#link">
-                      <span className="text-nowrap">Watch Video</span>
+                    <Link
+                      href={GITHUB_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <GitHubIcon className="size-4" />
+                      <span className="text-nowrap">View on GitHub</span>
                     </Link>
                   </Button>
                 </div>
+                <p className="text-muted-foreground mt-5 text-sm">
+                  No credit card. No trials. Sign in with email or Google.
+                </p>
               </div>
             </div>
             <div className="relative">
@@ -52,7 +70,7 @@ export default function HeroSection() {
                   <div className="bg-background rounded-(--radius) relative mx-auto overflow-hidden border border-transparent shadow-lg shadow-black/10 ring-1 ring-black/10">
                     <Image
                       src="/hero.webp"
-                      alt="app screen"
+                      alt="folio editor preview"
                       width="2880"
                       height="1842"
                     />

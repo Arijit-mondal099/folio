@@ -2,55 +2,17 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 
-const plans = [
-  {
-    name: "Starter",
-    description: "Perfect for individuals and small projects.",
-    price: "$0",
-    period: "/month",
-    features: [
-      "Up to 3 integrations",
-      "1,000 API calls/month",
-      "Community support",
-      "Basic analytics"
-    ],
-    cta: "Get Started",
-    highlighted: false
-  },
-  {
-    name: "Pro",
-    description: "For growing teams that need more power.",
-    price: "$29",
-    period: "/month",
-    features: [
-      "Unlimited integrations",
-      "100,000 API calls/month",
-      "Priority support",
-      "Advanced analytics",
-      "Custom webhooks",
-      "Team collaboration"
-    ],
-    cta: "Start Free Trial",
-    highlighted: true
-  },
-  {
-    name: "Enterprise",
-    description: "For organizations with advanced needs.",
-    price: "Custom",
-    period: "",
-    features: [
-      "Everything in Pro",
-      "Unlimited API calls",
-      "Dedicated support",
-      "SLA guarantee",
-      "Custom contracts",
-      "On-premise option"
-    ],
-    cta: "Contact Sales",
-    highlighted: false
-  }
+import { GitHubIcon } from "@/components/github-icon";
+
+const GITHUB_URL = "https://github.com/Arijit-mondal099/folio";
+
+const features = [
+  "Unlimited notebooks and notes",
+  "Every AI feature included",
+  "Export to PDF, Word, Markdown, HTML, text",
+  "Email + Google sign-in",
+  "MIT licensed, fully self-hostable"
 ];
 
 export default function Pricing() {
@@ -59,55 +21,46 @@ export default function Pricing() {
       <div className="mx-auto max-w-2xl px-6">
         <div className="text-center">
           <h2 className="text-balance font-serif text-4xl font-medium">
-            Simple, Transparent Pricing
+            Free. Forever.
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-md text-balance">
-            Choose the plan that fits your needs. All plans include a 14-day
-            free trial.
+            No trials. No tiers. No catch. Use the hosted version free, or fork
+            the repo and run it yourself.
           </p>
         </div>
-        <div className="@3xl:grid-cols-2 mt-12 grid gap-3">
-          {plans.map((plan) => (
-            <Card
-              key={plan.name}
-              variant={plan.highlighted ? "default" : "mixed"}
-              className={cn(
-                "relative flex flex-col p-6 last:col-span-full",
-                plan.highlighted && "ring-primary"
-              )}
-            >
-              <div>
-                <h3 className="text-foreground font-medium">{plan.name}</h3>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  {plan.description}
-                </p>
-              </div>
-              <div className="mt-6">
-                <span className="font-serif text-4xl font-medium">
-                  {plan.price}
-                </span>
-                <span className="text-muted-foreground">{plan.period}</span>
-              </div>
-              <ul className="mt-6 flex-1 space-y-3">
-                {plan.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="text-muted-foreground flex items-start gap-2 text-sm"
-                  >
-                    <Check className="text-primary mt-0.5 size-4 shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <Button
-                asChild
-                variant={plan.highlighted ? "default" : "outline"}
-                className="mt-8 w-full"
-              >
-                <Link href="#link">{plan.cta}</Link>
+        <div className="mt-12">
+          <Card className="ring-primary relative flex flex-col p-8 ring-1">
+            <div className="text-center">
+              <span className="font-serif text-5xl font-medium">$0</span>
+              <span className="text-muted-foreground ml-1">/ forever</span>
+            </div>
+            <ul className="mt-8 space-y-3">
+              {features.map((feature) => (
+                <li
+                  key={feature}
+                  className="text-muted-foreground flex items-start gap-2 text-sm"
+                >
+                  <Check className="text-primary mt-0.5 size-4 shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button asChild className="w-full sm:flex-1">
+                <Link href="/signup">Get started</Link>
               </Button>
-            </Card>
-          ))}
+              <Button asChild variant="outline" className="w-full sm:flex-1">
+                <Link
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <GitHubIcon className="size-4" />
+                  Star on GitHub
+                </Link>
+              </Button>
+            </div>
+          </Card>
         </div>
       </div>
     </section>
