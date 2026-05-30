@@ -1,4 +1,12 @@
+import type { Metadata } from "next";
+
 import { ForgotPasswordForm } from "@/components/form/forgot-password-form";
+
+export const metadata: Metadata = {
+  title: "Forgot password",
+  description: "Reset your folio password.",
+  alternates: { canonical: "/forgot-password" }
+};
 
 export default function Page() {
   return (
