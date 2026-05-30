@@ -6,6 +6,15 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ConfirmProvider } from "@/components/providers/confirm-provider";
 import { Toaster } from "@/components/ui/sonner";
+import {
+  FAVICON,
+  LOGO_IMAGE,
+  OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  SITE_NAME,
+  SITE_TITLE
+} from "@/lib/constants";
 import { env } from "@/lib/env";
 
 const geistSans = Geist({
@@ -18,46 +27,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"]
 });
 
-const SITE_NAME = "folio";
-const DEFAULT_TITLE = "folio — your notebook, supercharged with AI";
-const DEFAULT_DESCRIPTION =
-  "Capture, organise, and refine notes in beautiful notebooks. Folio pairs a clean editor with built-in AI to help you write, summarise, and translate faster.";
-
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
   title: {
-    default: DEFAULT_TITLE,
+    default: SITE_TITLE,
     template: `%s | ${SITE_NAME}`
   },
-  description: DEFAULT_DESCRIPTION,
+  description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
-  keywords: [
-    "notes",
-    "notebook",
-    "AI writing",
-    "AI notes",
-    "markdown editor",
-    "folio"
-  ],
+  keywords: SITE_KEYWORDS,
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     url: "/",
-    images: [{ url: "/hero.webp", width: 1200, height: 630, alt: "folio" }]
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }]
   },
   twitter: {
     card: "summary_large_image",
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
-    images: ["/hero.webp"]
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE]
   },
   icons: {
-    icon: "/favicon.ico",
-    apple: "/logo.png"
+    icon: FAVICON,
+    apple: LOGO_IMAGE
   },
   robots: { index: true, follow: true }
 };

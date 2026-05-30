@@ -12,6 +12,8 @@ import {
   Tailwind
 } from "@react-email/components";
 
+import { SITE_NAME } from "@/lib/constants";
+
 interface PasswordResetEmailProps {
   userName: string;
   resetUrl: string;
@@ -27,7 +29,7 @@ const PasswordResetEmail = ({
     <Html lang="en" dir="ltr">
       <Tailwind>
         <Head />
-        <Preview>Reset your folio password</Preview>
+        <Preview>Reset your {SITE_NAME} password</Preview>
         <Body className="bg-gray-100 font-sans py-10">
           <Container className="bg-white rounded-[8px] shadow-sm max-w-150 mx-auto p-10">
             <Section className="text-center mb-8">
@@ -92,7 +94,7 @@ const PasswordResetEmail = ({
 
             <Section className="border-t border-gray-200 pt-6">
               <Text className="text-[12px] text-gray-500 leading-4 m-0">
-                © {new Date().getFullYear()} folio. All rights reserved.
+                © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
               </Text>
             </Section>
           </Container>

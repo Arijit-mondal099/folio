@@ -37,6 +37,7 @@ import { CreateNoteBook } from "@/components/form/create-notebook";
 import { AppSidebarContent } from "./app-sidebar-content";
 import { SortButton, type SortMode } from "@/components/sort-button";
 import Image from "next/image";
+import { LOGO_IMAGE, SITE_NAME } from "@/lib/constants";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = authClient.useSession();
@@ -66,7 +67,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <Image
-                  src={"/logo.png"}
+                  src={LOGO_IMAGE}
                   width={100}
                   height={100}
                   className="w-full h-full"
@@ -74,7 +75,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-semibold">folio</span>
+                <span className="font-semibold">{SITE_NAME}</span>
                 <span className="text-xs text-muted-foreground">Note App</span>
               </div>
             </SidebarMenuButton>

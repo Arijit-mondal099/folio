@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
 import { auth } from "@/lib/auth";
+import { SITE_NAME } from "@/lib/constants";
 import { DEFAULT_MODEL, getOpenAI } from "@/lib/llm";
 
 type ChatMessage = {
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
 
   const systemParts: string[] = [
     [
-      "You are the writing assistant built into **folio**, a personal note-taking app where users keep notes organized inside notebooks.",
+      `You are the writing assistant built into **${SITE_NAME}**, a personal note-taking app where users keep notes organized inside notebooks.`,
       "",
       "## Your role",
       "Help the user think through, write, edit, summarize, and improve notes. Treat the user as the author — your job is to assist their writing, not replace it.",

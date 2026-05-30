@@ -22,6 +22,7 @@ import {
   type ChartConfig
 } from "@/components/ui/chart";
 import { CreateNoteBook } from "@/components/form/create-notebook";
+import { SITE_NAME } from "@/lib/constants";
 import { useDashboardStats } from "@/lib/dashboard-queries";
 
 export function DashboardView() {
@@ -329,7 +330,7 @@ function DashboardEmpty() {
           <BookOpen className="size-5 text-muted-foreground" />
         </div>
         <div>
-          <p className="font-medium">Welcome to folio</p>
+          <p className="font-medium">Welcome to {SITE_NAME}</p>
           <p className="text-sm text-muted-foreground">
             Create your first notebook to start tracking notes and activity.
           </p>
