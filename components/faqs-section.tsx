@@ -8,50 +8,52 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 
-export default function FAQsTwo() {
-  const faqItems = [
-    {
-      id: "item-1",
-      question: "How long does shipping take?",
-      answer:
-        "Standard shipping takes 3-5 business days, depending on your location. Express shipping options are available at checkout for 1-2 business day delivery."
-    },
-    {
-      id: "item-2",
-      question: "What payment methods do you accept?",
-      answer:
-        "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, Apple Pay, and Google Pay. For enterprise customers, we also offer invoicing options."
-    },
-    {
-      id: "item-3",
-      question: "Can I change or cancel my order?",
-      answer:
-        "You can modify or cancel your order within 1 hour of placing it. After this window, please contact our customer support team who will assist you with any changes."
-    },
-    {
-      id: "item-4",
-      question: "Do you ship internationally?",
-      answer:
-        "Yes, we ship to over 50 countries worldwide. International shipping typically takes 7-14 business days. Additional customs fees may apply depending on your country's import regulations."
-    },
-    {
-      id: "item-5",
-      question: "What is your return policy?",
-      answer:
-        "We offer a 30-day return policy for most items. Products must be in original condition with tags attached. Some specialty items may have different return terms, which will be noted on the product page."
-    }
-  ];
+const GITHUB_URL = "https://github.com/Arijit-mondal099/folio";
 
+const faqItems = [
+  {
+    id: "item-1",
+    question: "Is folio really free?",
+    answer:
+      "Yes. Folio is MIT-licensed. You can use the hosted version free of charge, or clone the repo and self-host it on your own infrastructure."
+  },
+  {
+    id: "item-2",
+    question: "Which AI model does it use?",
+    answer:
+      "The chat assistant and the inline transforms run on Groq's Qwen3-32B by default. If you self-host, you can swap the model by changing DEFAULT_MODEL in lib/llm.ts."
+  },
+  {
+    id: "item-3",
+    question: "Where are my notes stored?",
+    answer:
+      "In a PostgreSQL database. The hosted version uses Neon; self-hosted setups can point at any Postgres instance via the DATABASE_URL env var."
+  },
+  {
+    id: "item-4",
+    question: "Can I export my notes?",
+    answer:
+      "Yes — Markdown, HTML, plain text, PDF, and Word, all from the editor toolbar. No vendor lock-in, and exports preserve headings, lists, and code blocks."
+  },
+  {
+    id: "item-5",
+    question: "How do I run it myself?",
+    answer:
+      "Clone the GitHub repo, set the env vars (DATABASE_URL, GROQ_API_KEY, BETTER_AUTH_*, Google OAuth keys, NEXT_PUBLIC_SITE_URL), then run pnpm install && pnpm dev. The README has the full setup guide."
+  }
+];
+
+export default function FAQsTwo() {
   return (
-    <section className="py-16 md:py-24" id="about">
+    <section className="py-16 md:py-24" id="faq">
       <div className="mx-auto max-w-5xl px-4 md:px-6">
         <div className="mx-auto max-w-xl text-center">
           <h2 className="text-balance text-3xl font-bold md:text-4xl lg:text-5xl">
-            Frequently Asked Questions
+            Frequently asked questions
           </h2>
           <p className="text-muted-foreground mt-4 text-balance">
-            Discover quick and comprehensive answers to common questions about
-            our platform, services, and features.
+            Quick answers about how folio works, where your notes live, and how
+            to run it yourself.
           </p>
         </div>
 
@@ -78,10 +80,16 @@ export default function FAQsTwo() {
           </Accordion>
 
           <p className="text-muted-foreground mt-6 px-8">
-            Can&apos;t find what you&apos;re looking for? Contact our{" "}
-            <Link href="#" className="text-primary font-medium hover:underline">
-              customer support team
+            Still have questions? Open an issue on{" "}
+            <Link
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary font-medium hover:underline"
+            >
+              GitHub
             </Link>
+            .
           </p>
         </div>
       </div>
